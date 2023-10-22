@@ -527,6 +527,9 @@ public class BlockTexture : Clutter.CairoTexture
         case "tangoshaded":
             draw_tango (cr, true);
             break;
+        case "retro":
+            draw_retro (cr);
+            break;
         }
 
         return false;
@@ -698,5 +701,60 @@ public class BlockTexture : Clutter.CairoTexture
 
         /* Add inner edge highlight */
         cr.stroke ();
+    }
+
+    private void draw_retro (Cairo.Context cr)
+    {
+        /* The colors, first the lighter then the darker fill (for the gradient)
+           and then the stroke color  */
+        const double colors[72] =
+        {
+            0.890196078431, 0.572549019608, 0.258823529412,
+            0.803921568627, 0.450980392157, 0.101960784314,
+            0.690196078431, 0.388235294118, 0.0901960784314, /* orange */
+            
+            0.313725490196, 0.450980392157, 0.623529411765,
+            0.239215686275, 0.345098039216, 0.474509803922,
+            0.21568627451, 0.313725490196, 0.435294117647, /* blue */
+
+            0.576470588235, 0.364705882353, 0.607843137255,
+            0.443137254902, 0.282352941176, 0.46666666666,
+            0.439215686275, 0.266666666667, 0.46666666666, /* purple */
+
+            0.552941176471, 0.788235294118, 0.32549019607,
+            0.474509803922, 0.713725490196, 0.243137254902,
+            0.388235294118, 0.596078431373, 0.18431372549, /* green */
+
+            0.780392156863, 0.247058823529, 0.247058823529,
+            0.713725490196, 0.192156862745, 0.192156862745,
+            0.61568627451, 0.164705882353, 0.164705882353, /* red */
+
+            1.0, 1.0, 1.0,
+            0.909803921569, 0.909803921569, 0.898039215686,
+            0.701960784314, 0.701960784314, 0.670588235294, /* white */
+
+            0.945098039216, 0.878431372549, 0.321568627451,
+            0.929411764706, 0.839215686275, 0.113725490196,
+            0.760784313725, 0.682352941176, 0.0274509803922, /* yellow */
+
+            0.392156862745, 0.392156862745, 0.392156862745,
+            0.262745098039, 0.262745098039, 0.262745098039,
+            0.21568627451, 0.235294117647, 0.23921568627 /* grey */
+        };
+
+        /* Layout the block */
+        draw_rounded_rectangle (cr, 0.05, 0.05, 0.9, 0.9, 0.05);
+
+        /* Draw outline */
+        cr.set_source_rgb (colors[color * 9 + 6], colors[color * 9 + 7], colors[color * 9 + 8]);
+        cr.set_line_width (0.1);
+        cr.stroke_preserve ();
+
+        /* Fill with gradient */
+        var pat = new Cairo.Pattern.linear (0.35, 0, 0.55, 0.9);
+        pat.add_color_stop_rgb (0.0, colors[color * 9], colors[color * 9 + 1], colors[color * 9 + 2]);
+        pat.add_color_stop_rgb (1.0, colors[color * 9 + 3], colors[color * 9 + 4], colors[color * 9 + 5]);
+        cr.set_source (pat);
+        cr.fill ();
     }
 }

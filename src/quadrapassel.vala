@@ -439,6 +439,11 @@ public class Quadrapassel : Gtk.Application
         if (settings.get_string ("theme") == "clean")
             theme_combo.set_active_iter (iter);
 
+        theme_store.append (out iter);
+        theme_store.set (iter, 0, _("Retro"), 1, "retro", -1);
+        if (settings.get_string ("theme") == "retro")
+            theme_combo.set_active_iter (iter);
+    
         theme_combo.changed.connect (theme_combo_changed_cb);
 
         theme_preview = new Preview (null);

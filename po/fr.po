@@ -371,6 +371,10 @@ msgstr "Tango ombré"
 msgid "Clean"
 msgstr "Clean"
 
+#: src/quadrapassel.vala:443
+msgid "Retro"
+msgstr "Rétro"
+
 #. Throw up a dialog
 #: src/quadrapassel.vala:502
 msgid "Unable to change key, as this key already exists"
